@@ -1,19 +1,5 @@
-import { useEffect, useState } from "react";
+const ProductsContainer = ({elements}) => {
 
-const ProductsContainer = () => {
-
-    const [elements, setElements] = useState(null)
-
-    async function fetchData(url, state) {
-        const res = await fetch(url)
-        const data = await res.json()
-        
-        return state(data.results)
-    }
-
-    useEffect(() => {
-        fetchData('https://rickandmortyapi.com/api/character', setElements)
-    }, [])
 
     return(
         <>

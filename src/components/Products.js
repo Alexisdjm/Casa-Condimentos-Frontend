@@ -12,8 +12,12 @@ import { useLocation } from 'react-router-dom';
 
 const Products = () => {
 
+    const location = useLocation()
+
     const [first, setfirst] = useState('')
     const [second, setSecond] = useState('')
+    const [elements, setElements] = useState(null)
+    const [loc, setLoc] = useState(location.pathname)
 
     const array = [
         ['co', ('Condimentos y '), ('Especias')],
@@ -24,30 +28,35 @@ const Products = () => {
         ['ch', ('Químicos y '), ('Más')]
     ]
 
-    const location = useLocation()
-
-    const [loc, setLoc] = useState(location.pathname)
-
-
-    const searchCategory = () => {
+    const searchCategory = (location) => {
 
         for (let i = 0; i < array.length; i++) {
-            if (array[i][0] === loc.split('/').at(-1)) {
+            if (array[i][0] === location.split('/').at(-1)) {
                 return [array[i][1], array[i][2]]
             }
         }
     }
 
+    async function fetchData(url, state) {
+        console.log(url)
+        const res = await fetch(url)
+        const data = await res.json()
+        window.scrollTo(0, 0)
+        
+        return state(data)
+    }
+
     useEffect(() => {
-        if (loc !== location.pathname) {
-            window.scrollTo(0, 0)
-        }
+
         setLoc(location.pathname)
+
+        fetchData(`/api/products/${loc.split('/').at(-1)}/`, setElements)
+
         if ( loc.split('/').at(-1) === 'all') {
             setfirst('Todos Los ');
             setSecond('Productos')
         } else {
-            let texts = searchCategory();
+            let texts = searchCategory(loc);
             setfirst(texts[0])
             setSecond(texts[1])
         }
@@ -61,7 +70,7 @@ const Products = () => {
             <Container>
                 <Categories margin='categories-section-padding' textalign='categories-text-padding'/>
             </Container>
-            <ProductsContainer/>
+            <ProductsContainer elements={elements}/>
             <Featured css='products-section-featured flex-col align-center'/>
             <Footer>
                 <Toptext first='Síguenos en ' second='Instagram'/>

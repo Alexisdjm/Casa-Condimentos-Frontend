@@ -1042,6 +1042,7 @@ figcaption {
 
 .product-price {
   font-size: 16px;
+  opacity: .6;
 }
 
 .title-container {

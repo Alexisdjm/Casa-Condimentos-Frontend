@@ -66,12 +66,6 @@ const images = {
     chemical: require('./icons/test.png'),
     rice: require('./icons/rice.png'),
     moto: require('./icons/food-delivery.png'),
-    samplecanela: require('./img/canelanew.png'),
-    samplepimienta: require('./img/pimientanew.png'),
-    samplepaprika: require('./img/paprikanew.png'),
-    sampleoregano: require('./img/oregano.png'),
-    samplegomitas: require('./img/gomitas.png'),
-    samplecebolla: require('./img/cebollapolvo.png')
 }
 
 export default images

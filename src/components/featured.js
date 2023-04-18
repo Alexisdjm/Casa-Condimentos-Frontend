@@ -11,11 +11,11 @@ const Featured = ({css}) => {
         const res = await fetch(url)
         const data = await res.json()
         
-        return state(data.results)
+        return state(data)
     }
 
     useEffect(() => {
-        fetchData('https://rickandmortyapi.com/api/character', setProducts)
+        fetchData('/api/products/featured/', setProducts)
     }, [])
 
     const responsive = {
