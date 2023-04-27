@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 const ProductsContainer = ({elements}) => {
 
 
@@ -7,15 +9,17 @@ const ProductsContainer = ({elements}) => {
                 <div className="products-flex">
                     { elements !== null ? elements.map((product) => {
                         return(
-                            <div key={product.id} className='featured-product-card gallery-products flex-col align-center center'>
-                                <div className='product-image-container'>
-                                    <img className='product-img' src={product.image} alt={product.name}></img>
-                                    <div className='flex-col product-inner-text'>
-                                        <h1 className='product-name'>{product.name}</h1>
-                                        <h4 className='product-price'>{product.price + ' $'}</h4>
+                            <Link key={product.id}  to={`/product/${product.id}`}>
+                                <div className='featured-product-card gallery-products flex-col align-center center'>
+                                    <div className='product-image-container'>
+                                        <img className='product-img' src={product.image} alt={product.name}></img>
+                                        <div className='flex-col product-inner-text'>
+                                            <h1 className='product-name'>{product.name}</h1>
+                                            <h4 className='product-price'>{product.price + ' $'}</h4>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         )
                     }) : <div className='featured-product-card flex-col align-center center'></div> }
                 </div>

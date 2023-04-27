@@ -20,6 +20,7 @@ const images = {
     bg1: require('./img/condimentos-bg-1.jpeg'),
     bg2: require('./img/condimentos-bg-2.jpeg'),
     bg3: require('./img/condimentos-bg-3.jpeg'),
+    bg4: require('./img/condimentos-bg-4.jpeg'),
     dulces: require('./icons/dulces.png'),
     email: require('./icons/email.png'),
     condimentosbadge3: require('./img/condimentos-rueda.jpg'),

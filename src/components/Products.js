@@ -38,7 +38,6 @@ const Products = () => {
     }
 
     async function fetchData(url, state) {
-        console.log(url)
         const res = await fetch(url)
         const data = await res.json()
         window.scrollTo(0, 0)
@@ -50,7 +49,7 @@ const Products = () => {
 
         setLoc(location.pathname)
 
-        fetchData(`/api/products/${loc.split('/').at(-1)}/`, setElements)
+        fetchData(`http://127.0.0.1:8000/api/products/${loc.split('/').at(-1)}/`, setElements)
 
         if ( loc.split('/').at(-1) === 'all') {
             setfirst('Todos Los ');
@@ -63,7 +62,7 @@ const Products = () => {
     }, [loc, location])
     return(
         <>
-            <Header/>
+            <Header dynamic={true}/>
             <Intro image={images.bg3} image2={images.bg1} container='product-centered-text'>
                 <Toptext first={first} second={second}/>
             </Intro>

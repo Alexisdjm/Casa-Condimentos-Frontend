@@ -2,6 +2,7 @@ import images from '../images/exporting.js'
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Featured = ({css}) => {
 
@@ -15,7 +16,7 @@ const Featured = ({css}) => {
     }
 
     useEffect(() => {
-        fetchData('/api/products/featured/', setProducts)
+        fetchData('http://127.0.0.1:8000/api/products/featured/', setProducts)
     }, [])
 
     const responsive = {
@@ -52,15 +53,17 @@ const Featured = ({css}) => {
                     <Carousel responsive={responsive} autoPlay={true} autoPlaySpeed={3500} ssr={true} draggable={true} infinite={true} removeArrowOnDeviceType={["tablet", "mobile", "zfold"]}>
                     {products !== null ? products.map((product) => {
                         return(
-                            <div key={product.id} className='featured-product-card flex-col align-center center'>
-                                <div className='product-image-container'>
-                                    <img className='product-img' src={product.image} alt={product.name}></img>
-                                    <div className='flex-col product-inner-text'>
-                                        <h1 className='product-name'>{product.name}</h1>
-                                        <h4 className='product-price'>{product.price + ' $'}</h4>
+                            <Link key={product.id} to={`/product/${product.id}`}>
+                                <div  className='featured-product-card flex-col align-center center'>
+                                    <div className='product-image-container'>
+                                        <img className='product-img' src={product.image} alt={product.name}></img>
+                                        <div className='flex-col product-inner-text'>
+                                            <h1 className='product-name'>{product.name}</h1>
+                                            <h4 className='product-price'>{product.price + ' $'}</h4>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         )
                     }) : <div className='featured-product-card flex-col align-center center'></div> }
                     </Carousel>

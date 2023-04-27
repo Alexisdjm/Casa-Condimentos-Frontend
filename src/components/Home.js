@@ -18,7 +18,7 @@ const Home = () => {
     }, [])
     return(
         <>
-            <Header/>
+            <Header dynamic={true}/>
             <Intro image={images.bg2} image2={images.bg1} container='content-box-intro fit-content'>
                 <IntroText/>
             </Intro>
