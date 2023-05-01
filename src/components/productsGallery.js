@@ -10,7 +10,7 @@ const ProductsContainer = ({elements}) => {
                     { elements !== null ? elements.map((product) => {
                         return(
                             <Link key={product.id}  to={`/product/${product.id}`}>
-                                <div className='featured-product-card gallery-products flex-col align-center center'>
+                                <div className='products-gallery-card gallery-products flex-col align-center center'>
                                     <div className='product-image-container'>
                                         <img className='product-img' src={product.image} alt={product.name}></img>
                                         <div className='flex-col product-inner-text'>

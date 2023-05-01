@@ -1,5 +1,6 @@
 import images from '../images/exporting.js'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const Promotion = () => {
 
@@ -44,7 +45,7 @@ const Promotion = () => {
                                 <figcaption>Avellanas</figcaption>
                             </figure>
                         </div>
-                        <a className='promo-btn fit-content' href='/'>Comprar</a>
+                        <Link to='/products/nt' className='promo-btn fit-content'>Comprar</Link>
                     </div>
                 </div>
                 { !viewport ?

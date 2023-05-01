@@ -43,7 +43,7 @@ const Item = () => {
     useEffect(() => {
         window.scrollTo(0,0)
         setUrl(location.pathname)
-        fetchData(`http://127.0.0.1:8000/api/item/${url.split('/').at(-1)}`)  
+        fetchData(`http://127.0.0.1:8000/api/item/${url.split('/').at(-1)}/`)  
         
     }, [location, url])
 

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import images from "../images/exporting"
 import { useLocation } from "react-router-dom"
 
 const CartContent = () => {
@@ -29,7 +28,7 @@ const CartContent = () => {
     return (
         <>
             <div className="svg-next-container">
-                <div className="flex-center" style={{gap: '1em'}}>
+                <div className="cart-boxes-container">
                     <div className="cart-items-container flex-col">
                         <div className="simple-flex space-between">
                             <h1 className="cart-title">Carrito</h1>
@@ -38,30 +37,30 @@ const CartContent = () => {
                         <div className="cart-items-box">
                             { items ? items.map((product) => {
                                 return(
-                                    <div key={product.id} className="cart-item">
+                                    <div id={product.id} key={product.id} className="cart-item">
                                         <div className="cart-item-align">
-                                            <div className="simple-flex align-center" style={{gap: '1em'}}>
-                                                <label className="container">
-                                                    <input type="checkbox"></input>
-                                                    <div className="checkmark"></div>
-                                                </label>
-                                                <img className="cart-item-img" src={product.image} alt="sample"></img>
-                                            </div>
+                                            <label className="container">
+                                                <input type="checkbox"></input>
+                                                <div className="checkmark"></div>
+                                            </label>
+                                            <img className="cart-item-img" src={product.image} alt="sample"></img>
                                             <div className="flex-col cart-item-info">
                                                 <h4>{product.name}</h4>
                                                 <p>{product.description}</p>
+                                                <h4 className="hidden-price">${product.price}</h4>
                                             </div>
                                             <h4 className="cart-item-price">${product.price}</h4>
                                         </div>
                                     </div>
                                 )
-                            }) : ''}
+                            }) : <h1>No hay productos en el Carrito</h1>}
                         </div>
                         <h4 className="cart-items-total">Subtotal ({items ? items.length : 0} Productos): <strong>${parseFloat((total/2).toFixed(2))}</strong></h4>
+                        <button className="purchase-btn">Proceder al Pago</button>
                     </div>
                     <div className="checkout-cart-box flex-col">
                         <div className="simple-flex space-between">
-                            <h4 className='subtotal'>Subtotal (x Productos):</h4>
+                            <h4 className='subtotal'>Subtotal ({items ? items.length : 0} Productos):</h4>
                             <h4 className="cart-item-price">${parseFloat((total/2).toFixed(2))}</h4>
                         </div>
                         <button className="purchase-btn">Proceder al Pago</button>
