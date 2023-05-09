@@ -2,6 +2,7 @@ import Featured from "./featured"
 import images from "../images/exporting"
 import { useEffect, useState } from "react"
 import { useLocation } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const Item = () => {
 
@@ -25,7 +26,35 @@ const Item = () => {
         ['ch', 'Químicos y Más']
     ]
 
+    const csrftoken = Cookies.get('csrftoken');
 
+    function handleCart(url, id, method) {
+        fetch(url, {
+            method: method,
+            credentials: 'include',
+            headers:{
+                'Content-Type':'application/json',
+                "X-CSRFToken": csrftoken,
+            },
+            body: JSON.stringify({'product_id': id}),
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+    }
+
+    const getCart = (url) => {
+        fetch(url, {
+            method: 'GET',
+            credentials: 'include',
+            headers:{
+                'Content-Type':'application/json',
+                "X-CSRFToken": csrftoken,
+            }
+        })
+        .then(data => data.json())
+        .then(json => console.log(json))
+    }
 
     function fetchData(url) {
         fetch(url)
@@ -43,7 +72,8 @@ const Item = () => {
     useEffect(() => {
         window.scrollTo(0,0)
         setUrl(location.pathname)
-        fetchData(`http://127.0.0.1:8000/api/item/${url.split('/').at(-1)}/`)  
+        fetchData(`http://127.0.0.1:8000/api/item/${url.split('/').at(-1)}/`) 
+        getCart('http://127.0.0.1:8000/api/cart/')
         
     }, [location, url])
 
@@ -134,8 +164,12 @@ const Item = () => {
                                 </div>
                             </div>
                             <div className='flex-col buttons-container'>
-                                <button className='cart-btn'>Agregar al Carrito</button>
-                                <button className="purchase-btn">Comprar</button>
+                                <button className='cart-btn' onClick={() => {
+                                    handleCart('http://127.0.0.1:8000/api/cart/', product[0].id, 'POST')
+                                    }}>Agregar al Carrito</button>
+                                <button className="purchase-btn" onClick={() => {
+                                    handleCart(`http://127.0.0.1:8000/api/cart/${product[0].id}/`, product[0].id, 'Delete')
+                                }}>Comprar</button>
                             </div>
                         </div>
                     </div>

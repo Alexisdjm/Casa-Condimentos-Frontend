@@ -1,6 +1,7 @@
 import images from '../images/exporting.js'
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import { Link } from 'react-router-dom';
 
 const FirstSection = () => {
 
@@ -63,7 +64,7 @@ const FirstSection = () => {
                         <div className='first-slider-card' style={{backgroundImage: `url(${images.comino})`}}></div>
                     </Carousel>
                 </div>
-                <a className='casa-btn' href='/'>Todos los Productos</a>
+                <Link to='/products/all' className='casa-btn'>Todos los Productos</Link>
             </div>
         </>
     )

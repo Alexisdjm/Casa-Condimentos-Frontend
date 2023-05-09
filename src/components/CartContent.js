@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom"
 
 const CartContent = () => {
 
-    const [items, setItems] = useState(null)
+    const [items, setItems] = useState([])
     const [total, setTotal] = useState(0)
 
     const location = useLocation()
@@ -35,7 +35,7 @@ const CartContent = () => {
                             <h4 className="cart-box-price-label">Precio</h4>
                         </div>
                         <div className="cart-items-box">
-                            { items ? items.map((product) => {
+                            { items.legth > 0 ? items.map((product) => {
                                 return(
                                     <div id={product.id} key={product.id} className="cart-item">
                                         <div className="cart-item-align">

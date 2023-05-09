@@ -14,6 +14,7 @@
   --badge-font-color: #5E7375;
   --color-lightgray: lightgray;
   --text-lightgray: #b8b8b8;
+  --font-weight-lighter: 300;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
@@ -136,7 +137,7 @@ strong {
   width: 100%;
   position:fixed;
   min-height: fit-content;
-  z-index: 99;
+  z-index: 1001;
 }
 
 .static-header {
@@ -469,6 +470,8 @@ input.search-input:focus, input.search-input:hover {
 div.hide-desktop {
   display: none;
 }
+
+
  
 /* ---------------------------------------------- intro ------------------------------------------------- */
 
@@ -1532,18 +1535,34 @@ figcaption {
 /* ------------------------------------------ search interface -------------------------------------- */
 
 .search-img {
-  width: 30%;
+  width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
+}
+
+.search-result-img-container {
+  flex: 0 0 30%;
+  display: grid;
+  place-items: center;
 }
 
 .search-results-container {
   display: flex;
   flex-direction: column;
-  padding: 0 3em;
   height: 400px;
   overflow-y: scroll;
 }
+
+.search-result-link {
+  width: 80%;
+  padding: 0 10%;
+  transition: .3s ease;
+  transition-property: background-color;
+}
+
+.search-result-link:hover {
+  background-color: #f77812;
+ }
 
 .search-results-container::-webkit-scrollbar {
   width: 0;
@@ -1581,6 +1600,14 @@ figcaption {
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
 }
+
+.search-empty-result {
+  padding: 0 10%;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: var(--font-weight-lighter);
+}
+
 
 /* ------------------------------------------ cart checkbox ----------------------------------------- */
 

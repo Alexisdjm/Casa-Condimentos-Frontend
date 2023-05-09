@@ -7,6 +7,7 @@ const Sidebar = ({togg, func, kind, side, justmobile}) => {
 
     const [inputValue, setInputValue] = useState('')
     const [results, setResults] = useState([])
+    const [clear, setClear] = useState(true)
 
     const InputChange = (e) => {
         setInputValue(e.target.value)
@@ -17,8 +18,8 @@ const Sidebar = ({togg, func, kind, side, justmobile}) => {
         fetch(`http://127.0.0.1:8000/api/consulta/?search=${inputValue}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
             setResults(data)
+            setClear(false)
         })
         .catch(error => {
             console.error(error)
@@ -35,23 +36,27 @@ const Sidebar = ({togg, func, kind, side, justmobile}) => {
                     ? (
                     <>
                         <form className="search-form flex-center" onSubmit={handleSearch}>
-                            <input type="text" placeholder="Buscar" value={inputValue} className="search-input" onChange={InputChange}></input>
+                            <input required type="text" placeholder="Buscar" value={inputValue} className="search-input" onChange={InputChange}></input>
                             <button type="submit" className="submit-button"><FaSearch/></button>
                         </form>
                         <div className="search-results-container">
-                            { results ? results.map((result) => {
+                            { results.length > 0 ? results.map((result) => {
                                 return(
-                                    <div key={result.id} className="search-results-flex-h">
-                                        <img className="search-img" src={result.image} alt='prueba'></img>
-                                        <div className="flex-col">
-                                            <h4 className="search-name">{result.name}</h4>
-                                            <h4 className="search-price">${result.price}</h4>
-                                            <p className="search-description">{result.description}</p>
+                                    <Link key={result.id} to={`/product/${result.id}`} className="search-result-link">
+                                        <div  className="search-results-flex-h">
+                                            <div className='search-result-img-container'>
+                                                <img className="search-img" src={result.image} alt='prueba'></img>
+                                            </div>
+                                            <div className="flex-col">
+                                                <h4 className="search-name">{result.name}</h4>
+                                                <h4 className="search-price">${result.price}</h4>
+                                                <p className="search-description">{result.description}</p>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </Link>
                                 )
                             }) : (
-                                <h4>No se ha encontrado resultados</h4>
+                                !clear ? <h4 className="search-empty-result">No se ha encontrado resultados</h4> : ''
                             )}
                         </div>
                     </>
