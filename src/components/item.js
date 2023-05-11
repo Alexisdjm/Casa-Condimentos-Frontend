@@ -10,10 +10,14 @@ const Item = () => {
     const [url, setUrl] = useState(location.pathname)
 
     const [cantidad, setcantidad] = useState(1)
-    const [medida, setMedida] = useState(1)
+    const [gramos, setGramos] = useState(false)
     const [product, setProduct] = useState([
         {id: '1', name: 'name', price: '9.99', description: 'description',image: images.cuatrocondimentos, category: 'cat' }
     ])
+
+    const [existe, setExiste] = useState(false)
+    const [total, setTotal] = useState(0)
+    const [precio, setPrecio] = useState(0)
 
     const [category, setCategory] = useState('')
 
@@ -27,6 +31,24 @@ const Item = () => {
     ]
 
     const csrftoken = Cookies.get('csrftoken');
+
+    const Buy = () => {
+        const sendMessage = () => {
+            let num = '584127615686'
+            let message = [
+                `Buenas tardes, me gustaria comprar el siguiente producto: \nNombre: ${product[0].name}, \nCantidad: ${!product[0].Pgramos ? cantidad + ' unidades' : gramos ? cantidad*100 + ' gr' : cantidad + ' kg'}, \ntotal: $${total}`
+            ]
+            const encodedMessage = encodeURIComponent(message);
+            const url = `https://api.whatsapp.com/send?phone=${num}&text=${encodedMessage}`;
+            window.location.href = url;
+        }
+
+        return(
+            <>
+                <button className="purchase-btn" onClick={sendMessage}>Comprar</button>
+            </>
+        )
+    }
 
     function handleCart(url, id, method) {
         fetch(url, {
@@ -43,19 +65,6 @@ const Item = () => {
         .catch(error => console.error(error));
     }
 
-    const getCart = (url) => {
-        fetch(url, {
-            method: 'GET',
-            credentials: 'include',
-            headers:{
-                'Content-Type':'application/json',
-                "X-CSRFToken": csrftoken,
-            }
-        })
-        .then(data => data.json())
-        .then(json => console.log(json))
-    }
-
     function fetchData(url) {
         fetch(url)
         .then(data => data.json())    
@@ -66,6 +75,8 @@ const Item = () => {
                 }
             }  
             setProduct(json)
+            setPrecio(json[0].price)
+            setTotal(json[0].price)
         })
     }
 
@@ -73,7 +84,6 @@ const Item = () => {
         window.scrollTo(0,0)
         setUrl(location.pathname)
         fetchData(`http://127.0.0.1:8000/api/item/${url.split('/').at(-1)}/`) 
-        getCart('http://127.0.0.1:8000/api/cart/')
         
     }, [location, url])
 
@@ -89,42 +99,27 @@ const Item = () => {
                             <h4>{category}</h4>
                             <h1>{product[0].name}</h1>
                             <p className="product-description">{product[0].description}</p>
-                            <p className="price-description">Precio en Kg: <strong>${product[0].price}</strong></p>
+                            <p className="price-description">Precio: <strong>${product[0].price}</strong></p>
                         </div>
                     </div>
-                    { product[0].category === 'co' || product[0].category === 'nt'
-                    ? (<div id="mobile-gr">
-                        <h4 className="purchase-caption">En gramos</h4>
-                        <label className="toggle-switch">
-                        <input type="checkbox" onChange={(e) => {
-                            if (e.target.checked) {
-                                setcantidad(100)
-                                setMedida(100)
-                            } else {
-                                setcantidad(1)
-                                setMedida(1)
-                            }
-                        }}></input>
-                        <div className="toggle-switch-background">
-                            <div className="toggle-switch-handle"></div>
-                        </div>
-                        </label>
-                    </div>) : ''}
                     <div className='flex-center purchase-box-container'>
                         <div className="purchase-box flex-col">
-                            {product[0].category === 'co' || product[0].category === 'nt'
+                            {product[0].Pgramos > 0
                             ? (
                                 <div id="desktop-gr">
                                 <h4 className="purchase-caption">En gramos</h4>
                                 <label className="toggle-switch">
                                 <input type="checkbox" onChange={(e) => {
                                     if (e.target.checked) {
-                                        setcantidad(100)
-                                        setMedida(100)
+                                        setGramos(true)
+                                        setPrecio(product[0].Pgramos)
+                                        setTotal(product[0].Pgramos)
                                     } else {
-                                        setcantidad(1)
-                                        setMedida(1)
+                                        setGramos(false)
+                                        setPrecio(product[0].price)
+                                        setTotal(product[0].price)
                                     }
+                                    setcantidad(1)
                                 }}></input>
                                 <div className="toggle-switch-background">
                                     <div className="toggle-switch-handle"></div>
@@ -137,39 +132,37 @@ const Item = () => {
                                 <h4 className="purchase-caption">Cantidad</h4>
                                 <div className="flex-center" style={{padding: '0 0 10px'}}>
                                     <button className='menos-btn' onClick={() => {
-                                        if (medida === 1) {
-                                            cantidad <= 1 ? setcantidad(cantidad) : setcantidad(cantidad - medida)    
-                                        } else {
-                                            cantidad <= 100 ? setcantidad(cantidad) : setcantidad(cantidad - medida)    
-                                        }
+                                        cantidad <= 1 ? setcantidad(1) : setcantidad(prevValue => prevValue - 1)
+                                        total <=0 ? setTotal(precio) : setTotal(prevTotal => prevTotal - precio)    
                                     }}>-</button>
-                                    <input className="cantidad" value={cantidad} readOnly type="text"></input>
-                                    <button className='mas-btn' onClick={() => {setcantidad(cantidad + medida)}}>+</button>
+                                    <input className="cantidad" value={gramos ? cantidad*100 : cantidad} readOnly type="text"></input>
+                                    <button className='mas-btn' onClick={() => {
+                                        setcantidad(prevValue => prevValue + 1)
+                                        setTotal(prevTotal => prevTotal + precio) 
+                                        }}>+</button>
                                 </div>
                             </div>
                             <div className="price-align">
                                 <div className="simple-flex space-between">
                                     <h4 className="price-spec">Precio</h4>
-                                    <h4 className="price-numbers">${product[0].price ? product[0].price : 1}</h4>
+                                    <h4 className="price-numbers">${precio > 0 ? precio.toFixed(2) : product[0].price}</h4>
                                 </div>
                                 <hr></hr>
                                 <div className="simple-flex space-between">
                                     <h4 className="price-spec">Total</h4>
-                                    <h4 className="price-numbers">$
-                                        { product[0].price  
-                                            ? medida === 100 ? product[0].price*(cantidad/100) : product[0].price*cantidad
-                                            : medida === 100 ? 1*(cantidad/100) : 1*cantidad
-                                        }
-                                    </h4>
+                                    <h4 className="price-numbers">${total > 0 ? total.toFixed(2) : product[0].price}</h4>
                                 </div>
                             </div>
                             <div className='flex-col buttons-container'>
-                                <button className='cart-btn' onClick={() => {
-                                    handleCart('http://127.0.0.1:8000/api/cart/', product[0].id, 'POST')
-                                    }}>Agregar al Carrito</button>
-                                <button className="purchase-btn" onClick={() => {
-                                    handleCart(`http://127.0.0.1:8000/api/cart/${product[0].id}/`, product[0].id, 'Delete')
-                                }}>Comprar</button>
+                                <button className='cart-btn' onClick={() => { 
+                                    if (existe) {
+                                        // handleCart('http://127.0.0.1:8000/api/cart/', product[0].id, 'POST')
+                                        setExiste(false)
+                                    } else {
+                                        // handleCart(`http://127.0.0.1:8000/api/cart/${product[0].id}/`, product[0].id, 'Delete')
+                                        setExiste(true)
+                                    }}}>{existe ? 'Eliminar del Carrito' : 'Agregar al Carrito'}</button>
+                                <Buy/>
                             </div>
                         </div>
                     </div>
