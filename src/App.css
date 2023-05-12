@@ -1403,6 +1403,15 @@ figcaption {
   display: none;
 }
 
+.in-cart {
+  gap: 5px;
+  display: flex;
+  font-size: 16px;
+  font-style: italic;
+  align-items: center;
+  font-weight: var(--font-weight-regular);
+}
+
 /* ------------------------------------------ cart -------------------------------------------------- */
 
 .cart-items-container {

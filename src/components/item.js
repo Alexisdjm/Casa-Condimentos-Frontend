@@ -3,6 +3,7 @@ import images from "../images/exporting"
 import { useEffect, useState } from "react"
 import { useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { ReactComponent as ShoppingCart } from '../images/svgs/shopping-cart-black.svg'
 
 const Item = () => {
 
@@ -11,15 +12,21 @@ const Item = () => {
 
     const [cantidad, setcantidad] = useState(1)
     const [gramos, setGramos] = useState(false)
-    const [product, setProduct] = useState([
-        {id: '1', name: 'name', price: '9.99', description: 'description',image: images.cuatrocondimentos, category: 'cat' }
-    ])
+    const [product, setProduct] = useState([{
+        id: '1', 
+        name: 'name', 
+        price: '9.99', 
+        category: 'cat', 
+        session: {in_cart: false},
+        description: 'description',
+        image: images.cuatrocondimentos
+    }])
 
-    const [existe, setExiste] = useState(false)
     const [total, setTotal] = useState(0)
     const [precio, setPrecio] = useState(0)
 
     const [category, setCategory] = useState('')
+    const [incart, setIncart] = useState(false)
 
     const array = [
         ['co', 'Condimentos y Especias'],
@@ -75,6 +82,7 @@ const Item = () => {
                 }
             }  
             setProduct(json)
+            setIncart(json[0].session.in_cart)
             setPrecio(json[0].price)
             setTotal(json[0].price)
         })
@@ -84,20 +92,23 @@ const Item = () => {
         window.scrollTo(0,0)
         setUrl(location.pathname)
         fetchData(`http://127.0.0.1:8000/api/item/${url.split('/').at(-1)}/`) 
+        setcantidad(1)
+        setGramos(false)
         
-    }, [location, url])
+    }, [location.pathname, url])
 
     return(
         <>
             <div className="horizontal-padding">
                 <div className="single-product-page">
                     <div className="single-product-img flex-col center align-center">
-                        <img src={product[0].image} alt='prueba'></img>
+                        <img src={product[0].image} alt={product[0].name}></img>
                     </div>
                     <div className="single-product-info">
                         <div className="product-info-container">
                             <h4>{category}</h4>
                             <h1>{product[0].name}</h1>
+                            {!incart ? '' : (<h5 className="in-cart">En el carrito <ShoppingCart/></h5>)}
                             <p className="product-description">{product[0].description}</p>
                             <p className="price-description">Precio: <strong>${product[0].price}</strong></p>
                         </div>
@@ -109,7 +120,7 @@ const Item = () => {
                                 <div id="desktop-gr">
                                 <h4 className="purchase-caption">En gramos</h4>
                                 <label className="toggle-switch">
-                                <input type="checkbox" onChange={(e) => {
+                                <input type="checkbox" checked={gramos} onChange={(e) => {
                                     if (e.target.checked) {
                                         setGramos(true)
                                         setPrecio(product[0].Pgramos)
@@ -155,13 +166,13 @@ const Item = () => {
                             </div>
                             <div className='flex-col buttons-container'>
                                 <button className='cart-btn' onClick={() => { 
-                                    if (existe) {
-                                        // handleCart('http://127.0.0.1:8000/api/cart/', product[0].id, 'POST')
-                                        setExiste(false)
+                                    if (!incart) {
+                                        handleCart('http://127.0.0.1:8000/api/cart/', product[0].id, 'POST')
+                                        setIncart(true)
                                     } else {
-                                        // handleCart(`http://127.0.0.1:8000/api/cart/${product[0].id}/`, product[0].id, 'Delete')
-                                        setExiste(true)
-                                    }}}>{existe ? 'Eliminar del Carrito' : 'Agregar al Carrito'}</button>
+                                        handleCart(`http://127.0.0.1:8000/api/cart/${product[0].id}/`, product[0].id, 'DELETE')
+                                        setIncart(false)
+                                    }}}>{incart ? 'Eliminar del Carrito' : 'Agregar al Carrito'}</button>
                                 <Buy/>
                             </div>
                         </div>

@@ -1,5 +1,6 @@
 import images from '../images/exporting';
 import { FaInstagram, FaWhatsapp } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Footer = ({children}) => {
     return(
@@ -15,8 +16,8 @@ const Footer = ({children}) => {
                         </picture>
                         <div className='flex-col z-fold-max-width footer-menu-box padding-menu'>
                             <h1 className='footer-link-title'>Menú</h1>
-                            <a className='footer-menu-link' href='/'>Inicio</a>
-                            <a className='footer-menu-link' href='/'>Productos</a>
+                            <Link className='footer-menu-link' to='/'>Inicio</Link>  
+                            <Link className='footer-menu-link' to='/products/all/'>Productos</Link> 
                             <a className='footer-menu-link' href='/'>Categorías</a>
                             <a className='footer-menu-link' href='/'>Carrito</a>
                         </div>

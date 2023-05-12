@@ -53,7 +53,7 @@ const Header = ({dynamic}) => {
                                 <img className={!header ? 'mobile-menu-icon' : 'mobile-scroll-menu'} src={!header ? images.menuNaranja : images.menu} alt='cart'></img>
                             </a>
                             <div className='right-links flex-center header-containers-gap align-center' style={{width:'30%'}}>
-                                <Link to='/cart' className='icon-link' href='/'><img className='small-logo-header' src={!header ? images.bolsaNaranja : images.bolsa} alt='cart'></img></Link>
+                                <Link to='/cart/' className='icon-link' href='/'><img className='small-logo-header' src={!header ? images.bolsaNaranja : images.bolsa} alt='cart'></img></Link>
                                 <a className={!header ? 'icon-link icons-svg-dimensions icon-margin-fit simple-flex' : 'icon-link icons-svg-scroll icon-margin-fit simple-flex'} href='/'><FaInstagram/></a>
                                 <a className={!header ? 'contact-btn' : 'scroll-contact-btn'} href='/'>Contactanos</a>
                             </div>
@@ -82,7 +82,7 @@ const Header = ({dynamic}) => {
                                 <img className='mobile-scroll-menu' src={images.menu} alt='cart'></img>
                             </a>
                             <div className='right-links flex-center header-containers-gap align-center' style={{width:'30%'}}>
-                                <Link to='/cart' className='icon-link'><img className='small-logo-header' src={images.bolsa} alt='cart'></img></Link>
+                                <Link to='/cart/' className='icon-link'><img className='small-logo-header' src={images.bolsa} alt='cart'></img></Link>
                                 <a className='icon-link icons-svg-scroll icon-margin-fit simple-flex' href='/'><FaInstagram/></a>
                                 <a className='scroll-contact-btn' href='/'>Contactanos</a>
                             </div>
