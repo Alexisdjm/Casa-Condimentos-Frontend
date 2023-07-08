@@ -56,14 +56,15 @@ const Header = ({dynamic}) => {
                                 <Checkpath css={!header ? 'each-link' : 'scroll-link'} path='/' optional='/products/all' id='categorias'>Categorias</Checkpath>
                                 <a className={!header ? 'each-link' : 'scroll-link'} href='/' onClick={setSidebar}>Buscar</a>  
                             </div>
-                            <picture className={!header ? 'logo-header-container align-logo-center' : 'logo-header-container-scroll align-logo-center'}>
+                            
+                            <a href='/' className={!header ? 'logo-header-container align-logo-center' : 'logo-header-container-scroll align-logo-center'}>
                                 <img className='logo-header' src={!header ? images.logoNaranja : images.logoNegro} alt='logo'></img>
-                            </picture>
+                            </a>
                             <a className='icon-link mobile-show' href='/' onClick={setMenuu}>
                                 <img className={!header ? 'mobile-menu-icon' : 'mobile-scroll-menu'} src={!header ? images.menuNaranja : images.menu} alt='cart'></img>
                             </a>
                             <div className='right-links flex-center header-containers-gap align-center' style={{width:'30%'}}>
-                                <Link to='/cart/' className='icon-link' href='/'><img className='small-logo-header' src={!header ? images.bolsaNaranja : images.bolsa} alt='cart'></img></Link>
+                                <Link to='/cart/' className='icon-link'><img className='small-logo-header' src={!header ? images.bolsaNaranja : images.bolsa} alt='cart'></img></Link>
                                 <a className={!header ? 'icon-link icons-svg-dimensions icon-margin-fit simple-flex' : 'icon-link icons-svg-scroll icon-margin-fit simple-flex'} href='/'><FaInstagram/></a>
                                 <a className={!header ? 'contact-btn' : 'scroll-contact-btn'} href='/'>Contactanos</a>
                             </div>
