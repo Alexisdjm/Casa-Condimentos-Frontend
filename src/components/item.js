@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { ReactComponent as ShoppingCart } from '../images/svgs/shopping-cart-black.svg'
+import { Toaster, toast } from 'sonner'
 
 const Item = () => {
 
@@ -57,19 +58,40 @@ const Item = () => {
         )
     }
 
-    function handleCart(url, id, method) {
+    function deleteCart(url) {
         fetch(url, {
-            method: method,
+            method: 'DELETE',
+            credentials: 'include',
+            headers:{
+                'Content-Type':'application/json',
+                "X-CSRFToken": csrftoken,
+            }
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+
+    }
+
+    function AddToCart(url, id, cantidad, medida, precio) {
+        fetch(url, {
+            method: "POST",
             credentials: 'include',
             headers:{
                 'Content-Type':'application/json',
                 "X-CSRFToken": csrftoken,
             },
-            body: JSON.stringify({'product_id': id}),
+            body: JSON.stringify({
+                'product_id': id,
+                'precio': precio,
+                'cantidad': cantidad,
+                'gramos': medida
+            }),
         })
         .then(response => response.json())
         .then(data => console.log(data))
         .catch(error => console.error(error));
+
     }
 
     function fetchData(url) {
@@ -99,6 +121,7 @@ const Item = () => {
 
     return(
         <>
+            <Toaster expand={true} closeButton position="top-right"/>
             <div className="horizontal-padding">
                 <div className="single-product-page">
                     <div className="single-product-img flex-col center align-center">
@@ -167,11 +190,14 @@ const Item = () => {
                             <div className='flex-col buttons-container'>
                                 <button className='cart-btn' onClick={() => { 
                                     if (!incart) {
-                                        handleCart('http://127.0.0.1:8000/api/cart/', product[0].id, 'POST')
+                                        AddToCart('http://127.0.0.1:8000/api/cart/', product[0].id, cantidad, gramos, total)
                                         setIncart(true)
+                                        toast('Producto agregado al carrito')
+
                                     } else {
-                                        handleCart(`http://127.0.0.1:8000/api/cart/${product[0].id}/`, product[0].id, 'DELETE')
+                                        deleteCart(`http://127.0.0.1:8000/api/cart/${product[0].id}/`)
                                         setIncart(false)
+                                        toast('Producto eliminado del carrito')
                                     }}}>{incart ? 'Eliminar del Carrito' : 'Agregar al Carrito'}</button>
                                 <Buy/>
                             </div>

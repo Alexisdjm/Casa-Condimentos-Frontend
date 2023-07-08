@@ -64,8 +64,7 @@ const Sidebar = ({togg, func, kind, side, justmobile}) => {
                     : (
                         <div className="flex-col menu-component">
                             <Link className='sidebar-link' to='/'>Inicio</Link>    
-                            <Link className='sidebar-link' to='/products/all'>Productos</Link>                       
-                            <a className='sidebar-link' href='/'>Categorias</a>                       
+                            <Link className='sidebar-link' to='/products/all'>Productos</Link>                                            
                             <Link to='/cart' className='sidebar-link'>Carrito</Link>
                         </div>
                     )

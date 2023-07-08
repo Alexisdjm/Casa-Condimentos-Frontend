@@ -2,6 +2,7 @@ import images from "../images/exporting.js";
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { Link } from 'react-router-dom';
+import { Element } from 'react-scroll';
 
 const Categories = ({margin, textalign}) => {
 
@@ -30,7 +31,7 @@ const Categories = ({margin, textalign}) => {
 
     return(
         <>
-            <div className={`flex-col align-center ${margin} relative`}>
+            <Element name="categorias" id="categorias" className={`flex-col align-center ${margin} relative`}>
                 <div className={`flex-center ${textalign}`}>
                     <h1 className="categories-warning">Filtrar por Categorias</h1>
                     <h4 className="categories-info">Todas las Categorias</h4>
@@ -101,7 +102,7 @@ const Categories = ({margin, textalign}) => {
                         </div>
                     </Carousel>
                 </div>
-            </div>
+            </Element>
         </>
     )
 }

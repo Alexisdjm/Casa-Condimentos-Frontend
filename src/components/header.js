@@ -3,6 +3,8 @@ import { FaInstagram } from 'react-icons/fa';
 import { useState, useEffect } from "react";
 import Sidebar from './sidebar.js';
 import { Link } from 'react-router-dom';
+import Checkpath from './checkpath';
+
 
 const Header = ({dynamic}) => {
 
@@ -20,6 +22,14 @@ const Header = ({dynamic}) => {
     }
 
     const [header, setHeader] = useState(false)
+
+    const ScrollToTop = () => {
+        if (window.location.pathname !== '/') {
+            return
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
     useEffect(() => {
         document.addEventListener('scroll', () => {
             if (window.scrollY > 0) {
@@ -41,9 +51,9 @@ const Header = ({dynamic}) => {
                                 <img className='mobile-header-icons' src={!header ? images.searchNaranja : images.search} alt='cart'></img>
                             </a>
                             <div className='flex-center header-containers-gap left-links-width' style={{width:'38%'}}>
-                                <Link className={!header ? 'each-link' : 'scroll-link'} to='/'>Inicio</Link>  
-                                <Link className={!header ? 'each-link' : 'scroll-link'} to='/products/all'>Productos</Link>                      
-                                <a className={!header ? 'each-link' : 'scroll-link'} href='/'>Categorias</a>                       
+                                <Link className={!header ? 'each-link' : 'scroll-link'} to='/' onClick={ScrollToTop}>Inicio</Link>  
+                                <Link className={!header ? 'each-link' : 'scroll-link'} to='/products/all'>Productos</Link>
+                                <Checkpath css={!header ? 'each-link' : 'scroll-link'} path='/' optional='/products/all' id='categorias'>Categorias</Checkpath>
                                 <a className={!header ? 'each-link' : 'scroll-link'} href='/' onClick={setSidebar}>Buscar</a>  
                             </div>
                             <picture className={!header ? 'logo-header-container align-logo-center' : 'logo-header-container-scroll align-logo-center'}>

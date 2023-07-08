@@ -52,10 +52,6 @@ strong {
   color: var(--casa-orange);
   font-weight: inherit;
 }
-/* 
-* {
-  border: 1px solid red;
-} */
 
 .section-container {
   width: 100%;
@@ -137,7 +133,7 @@ strong {
   width: 100%;
   position:fixed;
   min-height: fit-content;
-  z-index: 1001;
+  z-index: 99;
 }
 
 .static-header {
@@ -164,7 +160,8 @@ strong {
 .each-link, .scroll-link {
   display: inline-block;
   font-weight:var(--font-weight-medium);
-  position:relative
+  position:relative;
+  cursor: pointer;
 }
 
 .each-link {
@@ -1025,7 +1022,14 @@ figcaption {
   box-shadow: 6px 6px 25px rgba(0, 0, 0, 0.16);
   border-radius: 9px;
   margin: 20px 0;
-  width: 230px;
+  width: 215px;
+}
+
+.products-gallery-card {
+  min-height: 260px;
+}
+
+.featured-product-card {
   height: 300px;
 }
 
@@ -1471,11 +1475,12 @@ figcaption {
 .cart-item-align {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0.5em;
 }
 
 .cart-item-info {
-  margin-left: 1em;
+  max-width: 450px;
 }
 
 .cart-title {
@@ -1501,7 +1506,6 @@ figcaption {
   font-weight: var(--font-weight-regular);
   color: var(--color-black);
   opacity: .5;
-  width: 90%;
   margin: 0;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -1535,6 +1539,27 @@ figcaption {
 
 .hidden-price {
   display: none;
+}
+
+.flex-cantidad {
+  display: flex;
+  gap: 15px;
+  margin: 0 25px 0 10px;
+}
+
+.cantidad-btn {
+  color: var(--color-white);
+  background-color: var(--casa-orange);
+  border-radius: 50%;
+  padding: 5px 10px;
+  border: none;
+}
+
+.cart-cantidad {
+  max-width: fit-content;
+  color: var(--color-black);
+  font-size: 20px;
+  font-weight: var(--font-weight-medium);
 }
 
 /* ------------------------------------------ search interface -------------------------------------- */
@@ -1975,6 +2000,13 @@ figcaption {
     margin: 0.75em;
     padding: 0.6em 0;
   }
+  
+  .flex-cantidad {
+    margin: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
 }
 
 @media only screen and (min-width: 464px) and (max-width: 767px) {
@@ -2134,11 +2166,21 @@ figcaption {
   .products-flex {
     width: 95%;
   }
+
+  .flex-cantidad {
+    margin: 0;
+  }
+}
+
+.cart-box-price-label {
+  display: none;
 }
 
 
 @media only screen and (min-width: 768px) {
-
+  .cart-box-price-label {
+    display: block;
+  }
 }
 
 @media only screen and (min-width:768px) and (max-width: 1023px) { 
